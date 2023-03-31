@@ -1,0 +1,100 @@
+# github.com/davecgh/go-spew v1.1.1
+## explicit
+github.com/davecgh/go-spew/spew
+# github.com/konsorten/go-windows-terminal-sequences v1.0.2
+## explicit
+github.com/konsorten/go-windows-terminal-sequences
+# github.com/pmezard/go-difflib v1.0.0
+## explicit
+github.com/pmezard/go-difflib/difflib
+# github.com/sirupsen/logrus v1.5.0
+## explicit; go 1.13
+github.com/sirupsen/logrus
+# github.com/stretchr/testify v1.7.1
+## explicit; go 1.13
+github.com/stretchr/testify/assert
+github.com/stretchr/testify/require
+# github.com/unidoc/pkcs7 v0.1.0
+## explicit; go 1.11
+github.com/unidoc/pkcs7
+# github.com/unidoc/timestamp v0.0.0-20200412005513-91597fd3793a
+## explicit; go 1.11
+github.com/unidoc/timestamp
+# github.com/unidoc/unipdf/v3 v3.44.0
+## explicit; go 1.14
+github.com/unidoc/unipdf/v3/common
+github.com/unidoc/unipdf/v3/common/license
+github.com/unidoc/unipdf/v3/contentstream
+github.com/unidoc/unipdf/v3/core
+github.com/unidoc/unipdf/v3/core/security
+github.com/unidoc/unipdf/v3/core/security/crypt
+github.com/unidoc/unipdf/v3/extractor
+github.com/unidoc/unipdf/v3/internal/bitwise
+github.com/unidoc/unipdf/v3/internal/ccittfax
+github.com/unidoc/unipdf/v3/internal/cmap
+github.com/unidoc/unipdf/v3/internal/cmap/bcmaps
+github.com/unidoc/unipdf/v3/internal/imageutil
+github.com/unidoc/unipdf/v3/internal/jbig2
+github.com/unidoc/unipdf/v3/internal/jbig2/basic
+github.com/unidoc/unipdf/v3/internal/jbig2/bitmap
+github.com/unidoc/unipdf/v3/internal/jbig2/decoder
+github.com/unidoc/unipdf/v3/internal/jbig2/decoder/arithmetic
+github.com/unidoc/unipdf/v3/internal/jbig2/decoder/huffman
+github.com/unidoc/unipdf/v3/internal/jbig2/decoder/mmr
+github.com/unidoc/unipdf/v3/internal/jbig2/document
+github.com/unidoc/unipdf/v3/internal/jbig2/document/segments
+github.com/unidoc/unipdf/v3/internal/jbig2/encoder/arithmetic
+github.com/unidoc/unipdf/v3/internal/jbig2/encoder/classer
+github.com/unidoc/unipdf/v3/internal/jbig2/errors
+github.com/unidoc/unipdf/v3/internal/jbig2/internal
+github.com/unidoc/unipdf/v3/internal/license
+github.com/unidoc/unipdf/v3/internal/sampling
+github.com/unidoc/unipdf/v3/internal/strutils
+github.com/unidoc/unipdf/v3/internal/textencoding
+github.com/unidoc/unipdf/v3/internal/textencoding/internal/syncmap
+github.com/unidoc/unipdf/v3/internal/timeutils
+github.com/unidoc/unipdf/v3/internal/transform
+github.com/unidoc/unipdf/v3/model
+github.com/unidoc/unipdf/v3/model/internal/docutil
+github.com/unidoc/unipdf/v3/model/internal/fonts
+github.com/unidoc/unipdf/v3/model/mdp
+github.com/unidoc/unipdf/v3/model/sigutil
+github.com/unidoc/unipdf/v3/ps
+# github.com/unidoc/unitype v0.2.1
+## explicit; go 1.11
+github.com/unidoc/unitype
+github.com/unidoc/unitype/internal/strutils
+# golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa
+## explicit; go 1.17
+golang.org/x/crypto/ocsp
+# golang.org/x/image v0.0.0-20211028202545-6944b10bf410
+## explicit; go 1.12
+golang.org/x/image/draw
+golang.org/x/image/math/f64
+golang.org/x/image/tiff/lzw
+# golang.org/x/sys v0.0.0-20220728004956-3c1f35247d10
+## explicit; go 1.17
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/unix
+# golang.org/x/text v0.4.0
+## explicit; go 1.17
+golang.org/x/text/encoding
+golang.org/x/text/encoding/charmap
+golang.org/x/text/encoding/internal
+golang.org/x/text/encoding/internal/identifier
+golang.org/x/text/encoding/japanese
+golang.org/x/text/encoding/simplifiedchinese
+golang.org/x/text/encoding/traditionalchinese
+golang.org/x/text/encoding/unicode
+golang.org/x/text/encoding/unicode/utf32
+golang.org/x/text/internal/utf8internal
+golang.org/x/text/runes
+golang.org/x/text/transform
+golang.org/x/text/unicode/norm
+# golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
+## explicit; go 1.11
+golang.org/x/xerrors
+golang.org/x/xerrors/internal
+# gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
+## explicit
+gopkg.in/yaml.v3
