@@ -72,8 +72,10 @@ func getFileReader(inputPath string) (string, error) {
 
 }
 func main() {
-
+	surname := map[string]bool{"Lê": true, "Nguyễn": true, "Trần": true, "Phạm": true, "Hoàng": true, "Huỳnh": true, "Phan": true, "Vũ": true, "Võ": true, "Đặng": true, "Bùi": true, "Đỗ": true, "Hồ": true, "Ngô": true, "Dương": true, "Lý": true, "Nguyen": true, "NGUYỄN": true, "NGUYEN": true, "LUONG": true}
 	files, _ := ioutil.ReadDir("CV")
+	candidates := []Candidates{}
+	var candidate Candidates
 	for _, file := range files {
 		filepath := fmt.Sprintf("CV/%s", file.Name())
 		content, err := getFileReader(filepath)
@@ -82,9 +84,17 @@ func main() {
 		}
 		lines := strings.Split(content, "\n")
 		for i, line := range lines {
+			word := strings.Split(line, " ")
+			if surname[word[0]] == true {
+				candidate.Name = line
+			}
 			fmt.Print(i, " ")
 			fmt.Println(line)
+			candidates = append(candidates, candidate)
 		}
 		fmt.Println("//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
+	}
+	for _, candi := range candidates {
+		log.Println(candi.Name)
 	}
 }
