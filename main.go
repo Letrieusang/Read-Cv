@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/unidoc/unipdf/v3/common/license"
@@ -13,7 +14,7 @@ import (
 )
 
 func init() {
-	err := license.SetMeteredKey(`b0de89db72db36b3d8d4521ff734b62b254e36b9953fb14da3f98aa014300c17`)
+	err := license.SetMeteredKey(`33792f026d20c3088ae83fd0f0ad67532761ce6cb5b5641440746ed449242917`)
 	if err != nil {
 		fmt.Printf("ERROR: Failed to set metered key: %v\n", err)
 		fmt.Printf("Make sure to get a valid key from https://cloud.unidoc.io\n")
@@ -25,7 +26,9 @@ type Candidates struct {
 	Id          int64  `json:"id" form:"id"`
 	Name        string `json:"name" form:"name"`
 	PhoneNumber string `json:"phone_number" form:"phone_number"`
-	Email       string `json:"email" form:"email"`
+	Mail        string `json:"mail" form:"mail"`
+	FaceBook    string `json:"facebook" form:"facebook"`
+	LinkedIn    string `json:"linked_in" form:"linked_id"`
 }
 
 func getFileReader(inputPath string) (string, error) {
@@ -71,8 +74,39 @@ func getFileReader(inputPath string) (string, error) {
 	return content, nil
 
 }
+func FindName(content string, firstline int, lastline int) string {
+	surname := map[string]bool{"Lê": true, "Nguyễn": true, "Trần": true, "Phạm": true, "Hoàng": true, "Huỳnh": true, "Phan": true, "Vũ": true, "Võ": true, "Đặng": true, "Bùi": true, "Đỗ": true, "Hồ": true, "Ngô": true, "Dương": true, "Lý": true, "Nguyen": true, "NGUYỄN": true, "NGUYEN": true, "LUONG": true, "Tran": true, "NGUYÊN": true, "LÊ": true, "LE": true}
+	lines := strings.Split(content, "\n")
+	for i := firstline; i < lastline; i++ {
+		word := strings.Split(lines[i], " ")
+		if surname[word[0]] == true {
+			return lines[i]
+		}
+	}
+	return ""
+}
+
+func FindInfo(content string, firstline int, lastline int) map[string]string {
+	info := map[string]string{}
+	lines := strings.Split(content, "\n")
+	for i := firstline; i < lastline; i++ {
+		if strings.Contains(lines[i], "@gmail") == true {
+			info["mail"] = lines[i]
+		}
+		if strings.Contains(lines[i], "facebook.com") == true {
+			info["facebook"] = lines[i]
+		}
+		if strings.Contains(lines[i], "linkedin") == true {
+			info["linkedin"] = lines[i]
+		}
+		if match, _ := regexp.MatchString("([\\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\\b", lines[i]); match == true {
+			info["phone_number"] = lines[i]
+		}
+	}
+	return info
+}
+
 func main() {
-	surname := map[string]bool{"Lê": true, "Nguyễn": true, "Trần": true, "Phạm": true, "Hoàng": true, "Huỳnh": true, "Phan": true, "Vũ": true, "Võ": true, "Đặng": true, "Bùi": true, "Đỗ": true, "Hồ": true, "Ngô": true, "Dương": true, "Lý": true, "Nguyen": true, "NGUYỄN": true, "NGUYEN": true, "LUONG": true, "Tran": true, "NGUYÊN": true}
 	files, _ := ioutil.ReadDir("CV")
 	candidates := []Candidates{}
 	for _, file := range files {
@@ -82,23 +116,35 @@ func main() {
 		if err != nil {
 			log.Fatal("Error: %v!", err)
 		}
-		lines := strings.Split(content, "\n")
-		for i, line := range lines {
-			if strings.Contains(line, "@gmail.com") == true {
-				candidate.Email = line
-			}
-			word := strings.Split(line, " ")
-			if surname[word[0]] == true {
-				candidate.Name = line
-			}
-			fmt.Print(i, " ")
-			fmt.Println(line)
+		if strings.Contains(content, "topcv") == true {
+			candidate.Name = FindName(content, 0, 10)
+			info := FindInfo(content, 0, 100)
+			candidate.PhoneNumber = info["phone_number"]
+			candidate.FaceBook = info["facebook"]
+			candidate.Mail = info["mail"]
+			candidate.LinkedIn = info["linked_in"]
+		} else if strings.Contains(content, "viec365") == true {
+			candidate.Name = FindName(content, 0, 10)
+			info := FindInfo(content, 0, 100)
+			candidate.PhoneNumber = info["phone_number"]
+			candidate.FaceBook = info["facebook"]
+			candidate.Mail = info["mail"]
+			candidate.LinkedIn = info["linked_in"]
+		} else {
+			candidate.Name = FindName(content, 0, 10)
+			info := FindInfo(content, 0, 100)
+			candidate.PhoneNumber = info["phone_number"]
+			candidate.FaceBook = info["facebook"]
+			candidate.Mail = info["mail"]
+			candidate.LinkedIn = info["linked_in"]
 		}
-		fmt.Println("//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////")
 		candidates = append(candidates, candidate)
+		log.Println(content)
 	}
 	for _, candi := range candidates {
 		log.Println(candi.Name)
-		log.Println(candi.Email)
+		log.Println(candi.PhoneNumber)
+		log.Println(candi.Id)
 	}
+
 }
