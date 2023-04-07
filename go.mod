@@ -2,10 +2,17 @@ module awesomeProject4
 
 go 1.19
 
-require github.com/unidoc/unipdf/v3 v3.44.0
+require (
+	github.com/unidoc/unipdf/v3 v3.44.0
+	gorm.io/driver/mysql v1.4.7
+	gorm.io/gorm v1.24.6
+)
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/go-sql-driver/mysql v1.7.0 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.5.0 // indirect

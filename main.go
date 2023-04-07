@@ -1,7 +1,10 @@
 package main
 
 import (
+	"awesomeProject4/Module"
 	"fmt"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 	"io/ioutil"
 	"log"
 	"os"
@@ -14,21 +17,12 @@ import (
 )
 
 func init() {
-	err := license.SetMeteredKey(`33792f026d20c3088ae83fd0f0ad67532761ce6cb5b5641440746ed449242917`)
+	err := license.SetMeteredKey(`a9753e981af16db0abd1c4bf037227da1e8396e5a0f03f664c40b540255f92d4`)
 	if err != nil {
 		fmt.Printf("ERROR: Failed to set metered key: %v\n", err)
 		fmt.Printf("Make sure to get a valid key from https://cloud.unidoc.io\n")
 		panic(err)
 	}
-}
-
-type Candidates struct {
-	Id          int64  `json:"id" form:"id"`
-	Name        string `json:"name" form:"name"`
-	PhoneNumber string `json:"phone_number" form:"phone_number"`
-	Mail        string `json:"mail" form:"mail"`
-	FaceBook    string `json:"facebook" form:"facebook"`
-	LinkedIn    string `json:"linked_in" form:"linked_id"`
 }
 
 func getFileReader(inputPath string) (string, error) {
@@ -97,7 +91,7 @@ func FindInfo(content string, firstline int, lastline int) map[string]string {
 			info["facebook"] = lines[i]
 		}
 		if strings.Contains(lines[i], "linkedin") == true {
-			info["linkedin"] = lines[i]
+			info["linked_in"] = lines[i]
 		}
 		if match, _ := regexp.MatchString("([\\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\\b", lines[i]); match == true {
 			info["phone_number"] = lines[i]
@@ -108,9 +102,9 @@ func FindInfo(content string, firstline int, lastline int) map[string]string {
 
 func main() {
 	files, _ := ioutil.ReadDir("CV")
-	candidates := []Candidates{}
+	candidates := []Module.Candidates{}
 	for _, file := range files {
-		var candidate Candidates
+		var candidate Module.Candidates
 		filepath := fmt.Sprintf("CV/%s", file.Name())
 		content, err := getFileReader(filepath)
 		if err != nil {
@@ -118,21 +112,21 @@ func main() {
 		}
 		if strings.Contains(content, "topcv") == true {
 			candidate.Name = FindName(content, 0, 10)
-			info := FindInfo(content, 0, 100)
+			info := FindInfo(content, 0, 90)
 			candidate.PhoneNumber = info["phone_number"]
 			candidate.FaceBook = info["facebook"]
 			candidate.Mail = info["mail"]
 			candidate.LinkedIn = info["linked_in"]
 		} else if strings.Contains(content, "viec365") == true {
 			candidate.Name = FindName(content, 0, 10)
-			info := FindInfo(content, 0, 100)
+			info := FindInfo(content, 0, 90)
 			candidate.PhoneNumber = info["phone_number"]
 			candidate.FaceBook = info["facebook"]
 			candidate.Mail = info["mail"]
 			candidate.LinkedIn = info["linked_in"]
 		} else {
 			candidate.Name = FindName(content, 0, 10)
-			info := FindInfo(content, 0, 100)
+			info := FindInfo(content, 0, 90)
 			candidate.PhoneNumber = info["phone_number"]
 			candidate.FaceBook = info["facebook"]
 			candidate.Mail = info["mail"]
@@ -145,6 +139,26 @@ func main() {
 		log.Println(candi.Name)
 		log.Println(candi.PhoneNumber)
 		log.Println(candi.Id)
+		log.Println(candi.Mail)
+		log.Println(candi.FaceBook)
+		log.Println(candi.LinkedIn)
+		log.Println("/////////////////////////////////////////")
 	}
+	err := InsertDB(candidates)
+	if err != nil {
+		log.Println(err)
+	}
+}
 
+func InsertDB(candidate []Module.Candidates) error {
+	dsn := "root:Iamspectre16@tcp(127.0.0.1:3306)/hoa?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return err
+	}
+	errCr := db.Table(Module.Candidates{}.TableName()).Create(&candidate).Error
+	if errCr != nil {
+		return errCr
+	}
+	return nil
 }
