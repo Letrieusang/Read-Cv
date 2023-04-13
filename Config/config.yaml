@@ -1,0 +1,2 @@
+
+sql_path: "root:Iamspectre16@tcp(127.0.0.1:3306)/select_candidates?parseTime=true"

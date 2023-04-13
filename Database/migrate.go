@@ -2,13 +2,20 @@ package main
 
 import (
 	"awesomeProject4/Module"
+	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
 )
 
 func main() {
-	dsn := "root:Iamspectre16@tcp(127.0.0.1:3306)/hoa?charset=utf8mb4&parseTime=True&loc=Local"
+	viper.SetConfigName("config.yaml")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath("Config/")
+	viper.ReadInConfig()
+	sqlPath := viper.GetString("sql_path")
+	log.Println(sqlPath)
+	dsn := sqlPath
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
