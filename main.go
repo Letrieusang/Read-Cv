@@ -21,7 +21,7 @@ func init() {
 	err := license.SetMeteredKey(`a9753e981af16db0abd1c4bf037227da1e8396e5a0f03f664c40b540255f92d4`)
 	if err != nil {
 		fmt.Printf("ERROR: Failed to set metered key: %v\n", err)
-		fmt.Printf("Make sure to get a valid key from https://cloud.unidoc.io\n")
+		fmt.Printf("Make sure to get a valid key from `https://cloud.unidoc.io`\n")
 		panic(err)
 	}
 }
@@ -70,7 +70,7 @@ func getFileReader(inputPath string) (string, error) {
 
 }
 func FindName(content string, firstline int, lastline int) string {
-	surname := map[string]bool{"Lê": true, "Nguyễn": true, "Trần": true, "Phạm": true, "Hoàng": true, "Huỳnh": true, "Phan": true, "Vũ": true, "Võ": true, "Đặng": true, "Bùi": true, "Đỗ": true, "Hồ": true, "Ngô": true, "Dương": true, "Lý": true, "Nguyen": true, "NGUYỄN": true, "NGUYEN": true, "LUONG": true, "Tran": true, "NGUYÊN": true, "LÊ": true, "LE": true}
+	surname := map[string]bool{"Lê": true, "Nguyễn": true, "Trần": true, "Phạm": true, "Hoàng": true, "Huỳnh": true, "Phan": true, "Vũ": true, "Võ": true, "Đặng": true, "Bùi": true, "Đỗ": true, "Hồ": true, "Ngô": true, "Dương": true, "Lý": true, "Nguyen": true, "NGUYỄN": true, "NGUYEN": true, "LUONG": true, "Tran": true, "NGUYÊN": true, "LÊ": true, "LE": true, "PHAM": true, "PHẠM": true, "TRAN": true, "TRẦN": true, "HOÀNG": true, "HOANG": true, "HUỲNH": true, "HUYNH": true}
 	lines := strings.Split(content, "\n")
 	for i := firstline; i < lastline; i++ {
 		word := strings.Split(lines[i], " ")
@@ -111,28 +111,18 @@ func main() {
 		if err != nil {
 			log.Fatal("Error: %v!", err)
 		}
-		if strings.Contains(content, "topcv") == true {
-			candidate.Name = FindName(content, 0, 10)
-			info := FindInfo(content, 0, 90)
-			candidate.PhoneNumber = info["phone_number"]
-			candidate.FaceBook = info["facebook"]
-			candidate.Mail = info["mail"]
-			candidate.LinkedIn = info["linked_in"]
-		} else if strings.Contains(content, "viec365") == true {
-			candidate.Name = FindName(content, 0, 10)
-			info := FindInfo(content, 0, 90)
-			candidate.PhoneNumber = info["phone_number"]
-			candidate.FaceBook = info["facebook"]
-			candidate.Mail = info["mail"]
-			candidate.LinkedIn = info["linked_in"]
-		} else {
-			candidate.Name = FindName(content, 0, 10)
-			info := FindInfo(content, 0, 90)
-			candidate.PhoneNumber = info["phone_number"]
-			candidate.FaceBook = info["facebook"]
-			candidate.Mail = info["mail"]
-			candidate.LinkedIn = info["linked_in"]
-		}
+		/*
+				thường thì các cv sẽ có phần họ tên, thông tin nằm ở gần đầu. cụ thể là từ dòng 10 đổ lại,
+				nhưng với các cv chia thành hai cột trái phải thì hiện đang không rõ vị trí của chúng trong chuỗi kí tự,
+				không có sự phân biệt rạch ròi giữa hai cột, các cột vẫn được đọc chung từ trên xuống dưới, trái sang phải như thường
+			cần tìm cj đó để bám víu vào mà xác định mẫu, thứ gì đấy dễ xác định, bất biến, quy chuẩn chung
+		*/
+		candidate.Name = FindName(content, 0, 10)
+		info := FindInfo(content, 0, 20)
+		candidate.PhoneNumber = info["phone_number"]
+		candidate.FaceBook = info["facebook"]
+		candidate.Mail = info["mail"]
+		candidate.LinkedIn = info["linked_in"]
 		candidates = append(candidates, candidate)
 		log.Println(content)
 	}
